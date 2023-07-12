@@ -49,10 +49,10 @@ export class UserEntity extends Entity<UserDto> {
   }
 
   async changePassword(
-    old: string,
+    oldPassword: string,
     newPassword: string,
   ): Promise<Either<Error, boolean>> {
-    const validation = await this.validatePassword(old)
+    const validation = await this.validatePassword(oldPassword)
     if (validation.isRight()) await this.setHashPassword(newPassword)
     return validation
   }
@@ -60,7 +60,7 @@ export class UserEntity extends Entity<UserDto> {
   async validatePassword(password: string): Promise<Either<Error, boolean>> {
     try {
       const isMatch = await compare(password, this.props.password)
-      if (!isMatch) return left(new Error('Invalid password'))
+      if (!isMatch) return left(new Error('The password is incorrect.'))
       return right(true)
     } catch (err) {
       return left(err as Error)
