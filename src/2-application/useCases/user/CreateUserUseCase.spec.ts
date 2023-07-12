@@ -1,8 +1,8 @@
 import 'reflect-metadata'
 
-import { UserEntity } from '1-domain/entities/User/User'
 import { UsersRepository } from '2-application/repositories/UsersRepository'
 import { UsersRepositoryInMemory } from '4-framework/repositories/in-memory/UsersRepositoryInMemory'
+import { makeUser } from '@test/utility/makeUser'
 
 import { CreateUserUseCase } from './CreateUserUseCase'
 
@@ -14,12 +14,12 @@ const INPUT_CREATE_USER = {
 
 describe('CreateUserUseCase', () => {
   it('should be able to create a new user', async () => {
-    expect.assertions(10)
     const usersRepository: UsersRepository = new UsersRepositoryInMemory()
     const createUserUseCase = new CreateUserUseCase(usersRepository)
 
     const resultUseCase = await createUserUseCase.execute(INPUT_CREATE_USER)
 
+    expect.assertions(10)
     expect(resultUseCase.isRight()).toBeTruthy()
 
     if (resultUseCase.isRight()) {
@@ -40,7 +40,6 @@ describe('CreateUserUseCase', () => {
   })
 
   it('should throw an error when email is invalid', async () => {
-    expect.assertions(2)
     const usersRepository: UsersRepository = new UsersRepositoryInMemory()
     const createUserUseCase = new CreateUserUseCase(usersRepository)
 
@@ -49,6 +48,7 @@ describe('CreateUserUseCase', () => {
       email: 'invalid-email',
     })
 
+    expect.assertions(2)
     expect(resultUseCase.isLeft()).toBeTruthy()
 
     if (resultUseCase.isLeft()) expect(resultUseCase.value.errorCode).toBe(422)
@@ -56,10 +56,8 @@ describe('CreateUserUseCase', () => {
 
   it('should throw an error when email is in use', async () => {
     expect.assertions(3)
-    const { value: exitedUser } = await UserEntity.create(INPUT_CREATE_USER)
-    const usersRepository: UsersRepository = new UsersRepositoryInMemory([
-      exitedUser as UserEntity,
-    ])
+    const user = await makeUser()
+    const usersRepository: UsersRepository = new UsersRepositoryInMemory([user])
     const createUserUseCase = new CreateUserUseCase(usersRepository)
 
     const resultUseCase = await createUserUseCase.execute(INPUT_CREATE_USER)

@@ -12,13 +12,13 @@ const INPUT_DELETE_USER = {
 
 describe('DeleteUserUseCase', () => {
   it('should be able to delete an user', async () => {
-    expect.assertions(3)
     const user = await makeUser({ id: INPUT_DELETE_USER.id })
     const usersRepository: UsersRepository = new UsersRepositoryInMemory([user])
     const deleteUserUseCase = new DeleteUserUseCase(usersRepository)
 
     const resultUseCase = await deleteUserUseCase.execute(INPUT_DELETE_USER)
 
+    expect.assertions(3)
     expect(resultUseCase.isRight()).toBeTruthy()
 
     if (resultUseCase.isRight()) {
@@ -28,12 +28,12 @@ describe('DeleteUserUseCase', () => {
   })
 
   it('should throw an error when user not found', async () => {
-    expect.assertions(3)
     const usersRepository: UsersRepository = new UsersRepositoryInMemory()
     const deleteUserUseCase = new DeleteUserUseCase(usersRepository)
 
     const resultUseCase = await deleteUserUseCase.execute(INPUT_DELETE_USER)
 
+    expect.assertions(3)
     expect(resultUseCase.isLeft()).toBeTruthy()
 
     if (resultUseCase.isLeft()) {

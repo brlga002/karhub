@@ -3,9 +3,9 @@
  * https://jestjs.io/docs/configuration
  */
 
-import type { Config } from 'jest'
+import type { Config } from '@jest/types'
 
-const config: Config = {
+const config: Config.InitialOptions = {
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 
@@ -16,7 +16,7 @@ const config: Config = {
   // cacheDirectory: "/tmp/jest_rs",
 
   // Automatically clear mock calls, instances, contexts and results before every test
-  clearMocks: true,
+  clearMocks: false,
 
   // Indicates whether the coverage information should be collected while executing the test
   // collectCoverage: false,
@@ -71,6 +71,7 @@ const config: Config = {
 
   // The maximum amount of workers used to run your tests. Can be specified as % or a number. E.g. maxWorkers: 10% will use 10% of your CPU amount + 1 as the maximum worker number. maxWorkers: 2 will use a maximum of 2 workers.
   // maxWorkers: "50%",
+  maxWorkers: 1,
 
   // An array of directory names to be searched recursively up from the requiring module's location
   // moduleDirectories: [
@@ -88,6 +89,7 @@ const config: Config = {
   //   "json",
   //   "node"
   // ],
+  moduleFileExtensions: ['js', 'ts'],
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   // moduleNameMapper: {},
