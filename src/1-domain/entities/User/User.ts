@@ -8,7 +8,7 @@ import { newUserSchema, updateUserSchema, UserSchema } from './User.schema'
 
 export type NewUserDto = z.infer<typeof newUserSchema>
 
-export type UserDto = z.infer<typeof UserSchema>
+export type UserDto = z.infer<typeof UserSchema> & { password: string }
 
 export type UpdateUserDto = z.infer<typeof updateUserSchema>
 
@@ -17,13 +17,13 @@ export class UserEntity extends Entity<UserDto> {
     super(props as UserDto)
   }
 
-  static create(props: NewUserDto): Either<Error, UserEntity> {
+  static async create(props: NewUserDto): Promise<Either<Error, UserEntity>> {
     const user = new UserEntity({
       ...props,
       createdBy: 'to do',
     })
 
-    user.setHashPassword(props.password)
+    await user.setHashPassword(props.password)
 
     const result = user.selfValidateEntity<UserEntity>(UserSchema)
     if (result.isLeft()) return left(new Error(result.value.message))
@@ -66,16 +66,15 @@ export class UserEntity extends Entity<UserDto> {
 
   async setHashPassword(value: string) {
     const saltRounds = 10
-    this.props.password = await hash(value, saltRounds)
+    const test = await hash(value, saltRounds)
+    this.props.password = test
   }
 
-  exportFields(): Omit<UserDto, keyof EntityDto> {
+  exportFields(hideSensitiveFields: boolean): Omit<UserDto, keyof EntityDto> {
     return {
       name: this.props.name,
       email: this.props.email,
-      password: this.props.password,
-      tenantId: this.props.tenantId,
-      role: this.props.role,
-    }
+      ...(!hideSensitiveFields && { password: this.props.password }),
+    } as Omit<UserDto, keyof EntityDto>
   }
 }

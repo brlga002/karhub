@@ -30,7 +30,10 @@ export class AuthUserUseCase
 
   async execute(input: InputAuthUserUseCase): OutputAuthUserUseCase {
     const user = await this.usersRepository.findByEmail(input.email)
-    if (!user) return left(ApplicationError.notFound())
+    if (!user)
+      return left(
+        ApplicationError.notFound(`The email: ${input.email} not found.`),
+      )
 
     const result = await user.validatePassword(input.password)
     if (result.isLeft())
@@ -39,8 +42,6 @@ export class AuthUserUseCase
     const token = this.tokenService.sign({
       userId: user.props.id,
       name: user.props.name,
-      role: user.props.role,
-      tenantId: user.props.tenantId ?? 'TODO MASTER TENANT',
     })
 
     if (token.isLeft())
