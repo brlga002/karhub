@@ -1,4 +1,5 @@
 import { compare, hash } from 'bcryptjs'
+import { v4 as uuid } from 'uuid'
 import { z } from 'zod'
 
 import { Entity, EntityDto } from '0-core/domain/entities/Entity'
@@ -18,9 +19,11 @@ export class UserEntity extends Entity<UserDto> {
   }
 
   static async create(props: NewUserDto): Promise<Either<Error, UserEntity>> {
+    const id = uuid()
     const user = new UserEntity({
+      id,
+      createdBy: id,
       ...props,
-      createdBy: 'to do',
     })
 
     await user.setHashPassword(props.password)
