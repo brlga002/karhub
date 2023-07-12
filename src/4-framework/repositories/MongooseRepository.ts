@@ -33,7 +33,7 @@ export abstract class MongooseRepository<T extends Entity, TDto>
 
   async delete(id: string): Promise<boolean> {
     await this.connect()
-    const result = await this._model.deleteOne({ id })
+    const result = await this._model.deleteOne({ _id: id })
     return result.acknowledged
   }
 
@@ -79,8 +79,8 @@ export abstract class MongooseRepository<T extends Entity, TDto>
 
   async update(id: string, entity: Entity): Promise<T | null> {
     await this.connect()
-    const update = { ...entity.toJSON(), updatedAt: new Date().toISOString() }
-    const result = await this._model.findOneAndUpdate({ id }, update, {
+    const update = { ...entity.toJSON() }
+    const result = await this._model.findOneAndUpdate({ _id: id }, update, {
       new: true,
     })
     if (!result) return null
