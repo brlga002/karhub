@@ -1,4 +1,4 @@
-import { v4 as uuid } from 'uuid'
+import { ObjectId } from 'bson'
 import { z } from 'zod'
 
 import { Either, left, right } from '0-core/domain/result/Either'
@@ -25,7 +25,7 @@ export abstract class Entity<T = unknown> {
 
   protected constructor(props: T & EntityDto) {
     this.props = props
-    this.id = props.id ?? uuid()
+    this.id = props.id ?? new ObjectId().toString()
     this.createdAt = props.createdAt ?? new Date().toISOString()
     this.createdBy = props.createdBy
     this.updatedAt = props.updatedAt ?? null

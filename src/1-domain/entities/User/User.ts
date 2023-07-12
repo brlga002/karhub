@@ -1,5 +1,5 @@
 import { compare, hash } from 'bcryptjs'
-import { v4 as uuid } from 'uuid'
+import { ObjectId } from 'bson'
 import { z } from 'zod'
 
 import { Entity, EntityDto } from '0-core/domain/entities/Entity'
@@ -19,7 +19,7 @@ export class UserEntity extends Entity<UserDto> {
   }
 
   static async create(props: NewUserDto): Promise<Either<Error, UserEntity>> {
-    const id = uuid()
+    const id = new ObjectId().toString()
     const user = new UserEntity({
       id,
       createdBy: id,
