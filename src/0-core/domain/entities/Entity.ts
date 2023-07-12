@@ -47,7 +47,7 @@ export abstract class Entity<T = unknown> {
       createdAt: this.createdAt,
       createdBy: this.createdBy,
       updatedAt: this.updatedAt,
-      updatedBy: this.updatedAt,
+      updatedBy: this.updatedBy,
     } as T & EntityDto
   }
 
