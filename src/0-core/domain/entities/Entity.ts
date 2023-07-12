@@ -1,7 +1,7 @@
-import { ObjectId } from 'bson'
 import { z } from 'zod'
 
 import { Either, left, right } from '0-core/domain/result/Either'
+import { makeId } from '0-core/shared/makeId'
 
 export const entityProps = {
   id: z.string(),
@@ -25,7 +25,7 @@ export abstract class Entity<T = unknown> {
 
   protected constructor(props: T & EntityDto) {
     this.props = props
-    this.id = props.id ?? new ObjectId().toString()
+    this.id = props.id ?? makeId()
     this.createdAt = props.createdAt ?? new Date().toISOString()
     this.createdBy = props.createdBy
     this.updatedAt = props.updatedAt ?? null

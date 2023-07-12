@@ -1,9 +1,9 @@
 import { compare, hash } from 'bcryptjs'
-import { ObjectId } from 'bson'
 import { z } from 'zod'
 
 import { Entity, EntityDto } from '0-core/domain/entities/Entity'
 import { Either, left, right } from '0-core/domain/result/Either'
+import { makeId } from '0-core/shared/makeId'
 
 import { newUserSchema, updateUserSchema, UserSchema } from './User.schema'
 
@@ -19,7 +19,7 @@ export class UserEntity extends Entity<UserDto> {
   }
 
   static async create(props: NewUserDto): Promise<Either<Error, UserEntity>> {
-    const id = new ObjectId().toString()
+    const id = makeId()
     const user = new UserEntity({
       id,
       createdBy: id,
