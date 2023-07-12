@@ -1,7 +1,7 @@
-import { v4 as uuid } from 'uuid'
 import { z } from 'zod'
 
 import { Either, left, right } from '0-core/domain/result/Either'
+import { makeId } from '0-core/shared/makeId'
 
 export const entityProps = {
   id: z.string(),
@@ -25,7 +25,7 @@ export abstract class Entity<T = unknown> {
 
   protected constructor(props: T & EntityDto) {
     this.props = props
-    this.id = props.id ?? uuid()
+    this.id = props.id ?? makeId()
     this.createdAt = props.createdAt ?? new Date().toISOString()
     this.createdBy = props.createdBy
     this.updatedAt = props.updatedAt ?? null
@@ -47,7 +47,7 @@ export abstract class Entity<T = unknown> {
       createdAt: this.createdAt,
       createdBy: this.createdBy,
       updatedAt: this.updatedAt,
-      updatedBy: this.updatedAt,
+      updatedBy: this.updatedBy,
     } as T & EntityDto
   }
 

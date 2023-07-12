@@ -20,6 +20,9 @@ dependencies:
   bcryptjs:
     specifier: ^2.4.3
     version: 2.4.3
+  bson:
+    specifier: ^5.4.0
+    version: 5.4.0
   inversify:
     specifier: ^6.0.1
     version: 6.0.1
@@ -35,9 +38,6 @@ dependencies:
   reflect-metadata:
     specifier: ^0.1.13
     version: 0.1.13
-  uuid:
-    specifier: ^9.0.0
-    version: 9.0.0
   zod:
     specifier: ^3.21.4
     version: 3.21.4
@@ -3844,8 +3844,8 @@ packages:
       node-int64: 0.4.0
     dev: true
 
-  /bson@5.3.0:
-    resolution: {integrity: sha512-ukmCZMneMlaC5ebPHXIkP8YJzNl5DC41N5MAIvKDqLggdao342t4McltoJBQfQya/nHBWAcSsYRqlXPoQkTJag==}
+  /bson@5.4.0:
+    resolution: {integrity: sha512-WRZ5SQI5GfUuKnPTNmAYPiKIof3ORXAF4IRU5UcgmivNIon01rWQlw5RUH954dpu8yGL8T59YShVddIPaU/gFA==}
     engines: {node: '>=14.20.1'}
     dev: false
 
@@ -7107,7 +7107,7 @@ packages:
       snappy:
         optional: true
     dependencies:
-      bson: 5.3.0
+      bson: 5.4.0
       mongodb-connection-string-url: 2.6.0
       socks: 2.7.1
     optionalDependencies:
@@ -7118,7 +7118,7 @@ packages:
     resolution: {integrity: sha512-gvkV5qxmBkGohlk7VTeePMPM2OkQPeqVYZHvjoM4goOIK6G1eSfJMZwXV21asivXxlaz6OuP29TfGAKrKooDAg==}
     engines: {node: '>=14.20.1'}
     dependencies:
-      bson: 5.3.0
+      bson: 5.4.0
       kareem: 2.5.1
       mongodb: 5.6.0
       mpath: 0.9.0
@@ -8808,6 +8808,7 @@ packages:
   /uuid@9.0.0:
     resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
     hasBin: true
+    dev: true
 
   /v8-to-istanbul@9.1.0:
     resolution: {integrity: sha512-6z3GW9x8G1gd+JIIgQQQxXuiJtCXeAjp6RaPEPLv62mH3iPHPxV6W3robxtCzNErRo6ZwTmzWhsbNvjyEBKzKA==}
