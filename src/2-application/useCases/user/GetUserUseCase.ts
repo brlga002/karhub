@@ -16,11 +16,11 @@ import { APPLICATION_TOKENS } from '2-application/tokens/applicationTokens'
 export class GetUserUseCase implements GetUseCase<UserDto> {
   constructor(
     @inject(APPLICATION_TOKENS.UsersRepository)
-    private readonly UsersRepository: UsersRepository,
+    private readonly usersRepository: UsersRepository,
   ) {}
 
   async execute(input: InputGetUseCase): OutputGetUseCase<UserDto> {
-    const user = await this.UsersRepository.getById(input.id)
+    const user = await this.usersRepository.getById(input.id)
     if (!user)
       return left(
         ApplicationError.notFound(`User with id '${input.id}' was not found.`),
