@@ -1,16 +1,10 @@
 import 'reflect-metadata'
 
 import { UsersRepository } from '2-application/repositories/UsersRepository'
-import { UsersRepositoryInMemory } from '4-framework/repositories/in-memory/UsersRepositoryInMemory'
-import { makeUser } from '@test/utility/makeUser'
+import { UsersRepositoryInMemory } from '@test/repositories/in-memory/UsersRepositoryInMemory'
+import { INPUT_CREATE_USER, makeUser } from '@test/utility/makeUser'
 
 import { CreateUserUseCase } from './CreateUserUseCase'
-
-const INPUT_CREATE_USER = {
-  name: 'gabriel',
-  password: '123456',
-  email: 'gabriel@gmail.com',
-}
 
 describe('CreateUserUseCase', () => {
   it('should be able to create a new user', async () => {
@@ -56,7 +50,7 @@ describe('CreateUserUseCase', () => {
 
   it('should throw an error when email is in use', async () => {
     expect.assertions(3)
-    const user = await makeUser()
+    const user = await makeUser(INPUT_CREATE_USER)
     const usersRepository: UsersRepository = new UsersRepositoryInMemory([user])
     const createUserUseCase = new CreateUserUseCase(usersRepository)
 

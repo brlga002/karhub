@@ -3,8 +3,12 @@ import { Entity } from '0-core/domain/entities/Entity'
 export class ApplicationResult<T = unknown> {
   private constructor(public successCode: number, public content?: T) {}
 
-  static success<T>(value?: T): ApplicationResult<T> {
-    return new ApplicationResult(200, value)
+  static success<T>(value?: Entity | T): ApplicationResult<T> {
+    const convertedValue = value as unknown as Entity<T>
+    if (typeof convertedValue?.toJSON === 'function')
+      return new ApplicationResult(200, convertedValue.toJSON(true))
+
+    return new ApplicationResult(200, value as T)
   }
 
   static created<T>(value: Entity): ApplicationResult<T> {

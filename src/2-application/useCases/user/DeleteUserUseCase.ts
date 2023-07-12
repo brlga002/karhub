@@ -28,7 +28,7 @@ export class DeleteUserUseCase implements DeleteUseCase {
     const result = await this.usersRepository.delete(input.id)
     if (!result)
       return left(
-        ApplicationError.internalServerError('Failed to delete user.'),
+        ApplicationError.internalServerError('Failed to delete User.'),
       )
     return right(ApplicationResult.noContent())
   }

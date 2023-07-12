@@ -66,50 +66,18 @@ class UsersRepositoryInMemory implements UsersRepository {
     return Promise.resolve(user ?? null)
   }
 
-  list(input: InputListRepository): Promise<
-    OutputListRepository<{
-      id: string
-      createdAt: string
-      createdBy: string
-      updatedAt: string | null
-      updatedBy: string | null
-      name: string
-      email: string
-      password: string
-    }>
-  > {
-    let filteredUsers = this.users
-
-    const total = filteredUsers.length
-
+  list(input: InputListRepository): Promise<OutputListRepository<UserDto>> {
     const { offset = 0, limit = 10 } = input
-    const startIndex = (offset - 1) * limit
+    const startIndex = offset * limit
     const endIndex = startIndex + limit
-    filteredUsers = filteredUsers.slice(startIndex, endIndex)
 
-    const output: OutputListRepository<{
-      id: string
-      createdAt: string
-      createdBy: string
-      updatedAt: string | null
-      updatedBy: string | null
-      name: string
-      email: string
-      password: string
-    }> = {
-      data: filteredUsers.map((u) => ({
-        id: u.props.id,
-        createdAt: u.props.createdAt,
-        createdBy: u.props.createdBy,
-        updatedAt: u.props.updatedAt,
-        updatedBy: u.props.updatedBy,
-        name: u.props.name,
-        email: u.props.email,
-        password: u.props.password,
-      })),
+    const filteredUsers = this.users.slice(startIndex, endIndex)
+
+    const output: OutputListRepository<UserDto> = {
+      data: filteredUsers.map((user) => user.toJSON(true)),
       limit,
       offset,
-      total,
+      total: this.users.length,
     }
 
     return Promise.resolve(output)

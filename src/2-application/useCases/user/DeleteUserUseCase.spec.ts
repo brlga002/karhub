@@ -1,7 +1,7 @@
 import 'reflect-metadata'
 
 import { UsersRepository } from '2-application/repositories/UsersRepository'
-import { UsersRepositoryInMemory } from '4-framework/repositories/in-memory/UsersRepositoryInMemory'
+import { UsersRepositoryInMemory } from '@test/repositories/in-memory/UsersRepositoryInMemory'
 import { makeUser } from '@test/utility/makeUser'
 
 import { DeleteUserUseCase } from './DeleteUserUseCase'
