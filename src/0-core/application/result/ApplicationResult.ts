@@ -23,7 +23,7 @@ export class ApplicationResult<T = unknown> {
     return new ApplicationResult(203, value)
   }
 
-  static noContent<T>(value?: T): ApplicationResult<T> {
-    return new ApplicationResult(204, value)
+  static noContent(): ApplicationResult<boolean> {
+    return new ApplicationResult(204, true)
   }
 }
