@@ -39,11 +39,7 @@ export const authCurrentUser = (): middy.MiddlewareObj<Event> => {
     before: async (request: middy.Request<Event>): Promise<void> => {
       const authorizer = ensureCurrentUser(request)
       if (authorizer) {
-        const user = new ConcreteCurrentUser(
-          authorizer.userId,
-          authorizer.tenantId,
-          authorizer.role,
-        )
+        const user = new ConcreteCurrentUser(authorizer.userId)
         container
           .bind<CurrentUser>(INTERFACE_TOKENS.CurrentUser)
           .toConstantValue(user)
