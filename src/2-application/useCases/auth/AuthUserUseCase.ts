@@ -30,7 +30,10 @@ export class AuthUserUseCase
 
   async execute(input: InputAuthUserUseCase): OutputAuthUserUseCase {
     const user = await this.usersRepository.findByEmail(input.email)
-    if (!user) return left(ApplicationError.notFound())
+    if (!user)
+      return left(
+        ApplicationError.notFound(`The email: ${input.email} not found.`),
+      )
 
     const result = await user.validatePassword(input.password)
     if (result.isLeft())
