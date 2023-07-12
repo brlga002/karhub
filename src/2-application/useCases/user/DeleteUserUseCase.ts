@@ -19,7 +19,7 @@ export class DeleteUserUseCase implements DeleteUseCase {
   ) {}
 
   async execute(input: InputDeleteUseCase): OutputDeleteUseCase {
-    const user = await this.usersRepository.findOne({ id: input.id })
+    const user = await this.usersRepository.getById(input.id)
     if (!user)
       return left(
         ApplicationError.notFound(`User with id '${input.id}' was not found.`),
@@ -27,7 +27,9 @@ export class DeleteUserUseCase implements DeleteUseCase {
 
     const result = await this.usersRepository.delete(input.id)
     if (!result)
-      return left(ApplicationError.internalServerError('Failed to delete user'))
+      return left(
+        ApplicationError.internalServerError('Failed to delete user.'),
+      )
     return right(ApplicationResult.noContent())
   }
 }
