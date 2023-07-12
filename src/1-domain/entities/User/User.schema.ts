@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 import { entityProps } from '0-core/domain/entities/Entity'
 
-const userProps = {
+export const userProps = {
   name: z.string().min(3),
   email: z.string().email(),
   password: z.string(),
