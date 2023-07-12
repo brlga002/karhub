@@ -8,16 +8,22 @@ export type InputAuthenticateUser = {
   password: string
 }
 
+export type OutputAuthenticateUser = Promise<
+  Either<ApplicationError, ApplicationResult<OutputSing>>
+>
+
 export type InputUpdateUserPassword = {
   oldPassword: string
   newPassword: string
 }
 
+export type OutputUpdateUserPassword = Promise<
+  Either<ApplicationError, ApplicationResult<boolean>>
+>
+
 export interface AuthUserRoutesController {
-  authenticateUser: (
-    input: InputAuthenticateUser,
-  ) => Promise<Either<ApplicationError, ApplicationResult<OutputSing>>>
+  authenticateUser: (input: InputAuthenticateUser) => OutputAuthenticateUser
   updateUserPassword: (
     input: InputUpdateUserPassword,
-  ) => Promise<Either<ApplicationError, ApplicationResult<boolean>>>
+  ) => OutputUpdateUserPassword
 }

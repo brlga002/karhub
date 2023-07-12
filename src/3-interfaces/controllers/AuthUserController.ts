@@ -1,27 +1,27 @@
 import { inject, injectable } from 'inversify'
 
-import { ApplicationError } from '0-core/application/result/ApplicationError'
-import { ApplicationResult } from '0-core/application/result/ApplicationResult'
-import { Either, left, right } from '0-core/domain/result/Either'
+import { left, right } from '0-core/domain/result/Either'
 import {
   AuthUserRoutesController,
   InputAuthenticateUser,
   InputUpdateUserPassword,
+  OutputAuthenticateUser,
+  OutputUpdateUserPassword,
 } from '1-domain/controllers/AuthUserRoutesController'
-import { OutputSing } from '1-domain/services/TokenService'
 import { APPLICATION_TOKENS } from '2-application/tokens/applicationTokens'
 import { AuthUserUseCase } from '2-application/useCases/auth/AuthUserUseCase'
+import { UpdateUserPasswordUseCase } from '2-application/useCases/auth/UpdateUserPasswordUseCase'
 
 @injectable()
 export class AuthUserController implements AuthUserRoutesController {
   constructor(
     @inject(APPLICATION_TOKENS.AuthUserUseCase)
     private readonly authUserUseCase: AuthUserUseCase,
+    @inject(APPLICATION_TOKENS.UpdateUserPasswordUseCase)
+    private readonly updateUserPasswordUseCase: UpdateUserPasswordUseCase,
   ) {}
 
-  async authenticateUser(
-    input: InputAuthenticateUser,
-  ): Promise<Either<ApplicationError, ApplicationResult<OutputSing>>> {
+  async authenticateUser(input: InputAuthenticateUser): OutputAuthenticateUser {
     const result = await this.authUserUseCase.execute(input)
     if (result.isLeft()) return left(result.value)
     return right(result.value)
@@ -29,7 +29,9 @@ export class AuthUserController implements AuthUserRoutesController {
 
   async updateUserPassword(
     input: InputUpdateUserPassword,
-  ): Promise<Either<ApplicationError, ApplicationResult<boolean>>> {
-    throw new Error('Not implemented')
+  ): OutputUpdateUserPassword {
+    const result = await this.updateUserPasswordUseCase.execute(input)
+    if (result.isLeft()) return left(result.value)
+    return right(result.value)
   }
 }
