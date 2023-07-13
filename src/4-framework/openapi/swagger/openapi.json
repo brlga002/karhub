@@ -350,6 +350,46 @@
         }
       }
     },
+    "/beers/beer-style": {
+      "post": {
+        "summary": "Get Beer style",
+        "security": [],
+        "tags": [
+          "Beer",
+          "Get Beer"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "temperature": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "temperature"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Get Beer style",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/users": {
       "post": {
         "summary": "Create User",
