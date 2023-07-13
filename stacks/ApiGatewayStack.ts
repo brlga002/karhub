@@ -20,5 +20,9 @@ export function ApiGatewayStack({ stack }: StackContext) {
     },
   })
 
+  stack.addOutputs({
+    ApiEndpoint: api.url,
+  })
+
   return { api }
 }

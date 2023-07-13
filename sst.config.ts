@@ -2,6 +2,7 @@ import { SSTConfig } from 'sst'
 
 import { ApiGatewayStack } from 'stacks/ApiGatewayStack'
 import { BeerStack } from 'stacks/BeerStack'
+import { SwaggerStack } from 'stacks/SwaggerStack'
 
 import { UserStack } from './stacks/UserStack'
 
@@ -13,6 +14,14 @@ export default {
     }
   },
   stacks(app) {
-    app.stack(ApiGatewayStack).stack(UserStack).stack(BeerStack)
+    app.setDefaultFunctionProps({
+      runtime: 'nodejs16.x',
+    })
+
+    app
+      .stack(SwaggerStack)
+      .stack(ApiGatewayStack)
+      .stack(BeerStack)
+      .stack(UserStack)
   },
 } satisfies SSTConfig
