@@ -7,6 +7,7 @@ import { GetBeerUseCase } from '2-application/useCases/beer/GetBeerUseCase'
 import { ListBeersUseCase } from '2-application/useCases/beer/ListBeersUseCase'
 import { UpdateBeerUseCase } from '2-application/useCases/beer/UpdateBeerUseCase'
 import { BeerController } from '3-interfaces/controllers/BeerController'
+import { BeerStyleAndPlaylistController } from '3-interfaces/controllers/BeerStyleAndPlaylistController'
 import { BeerMongooseRepository } from '4-framework/repositories/beer/BeerMongooseRepository'
 import { SpotifyPlaylistService } from '4-framework/services/SpotifyPlaylistService'
 import { INTERFACE_TOKENS } from 'src/3-interfaces/tokens/interfaceTokens'
@@ -25,4 +26,7 @@ container
   .bind(INTERFACE_TOKENS.FindBeerStyleAndPlaylistUseCase)
   .to(FindBeerStyleAndPlaylistUseCase)
 container.bind(INTERFACE_TOKENS.BeerController).to(BeerController)
+container
+  .bind(INTERFACE_TOKENS.BeerStyleAndPlaylistController)
+  .to(BeerStyleAndPlaylistController)
 container.bind(INTERFACE_TOKENS.PlaylistService).to(SpotifyPlaylistService)

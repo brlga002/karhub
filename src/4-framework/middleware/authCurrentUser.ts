@@ -19,7 +19,11 @@ interface Authorizer extends APIGatewayEventRequestContextV2 {
 
 type Event = APIGatewayProxyEventV2WithRequestContext<Authorizer>
 
-const PUBLIC_ROUTES = ['POST /authenticate/login', 'POST /users']
+const PUBLIC_ROUTES = [
+  'POST /authenticate/login',
+  'POST /users',
+  'POST /beers/beer-style',
+]
 
 const ensureCurrentUser = (
   request: middy.Request<Event>,
