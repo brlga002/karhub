@@ -23,6 +23,9 @@ export type OutputUpdateUserPassword = Promise<
 
 export interface AuthUserRoutesController {
   authenticateUser: (input: InputAuthenticateUser) => OutputAuthenticateUser
+}
+
+export interface UpdateUserPasswordRoutesController {
   updateUserPassword: (
     input: InputUpdateUserPassword,
   ) => OutputUpdateUserPassword
