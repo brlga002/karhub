@@ -7,7 +7,7 @@ import { left, right } from '0-core/domain/result/Either'
 import {
   InputFindBeerStyleAndPlaylist,
   OutputFindBeerStyleAndPlaylist,
-} from '1-domain/controllers/BeerRoutesController'
+} from '1-domain/controllers/BeerStyleAndPlaylistRoutesController'
 import { BeerDto } from '1-domain/entities/Beer/Beer'
 import { PlaylistService } from '1-domain/services/PlaylistService'
 import { BeersRepository } from '2-application/repositories/BeersRepository'

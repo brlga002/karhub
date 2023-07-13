@@ -1,6 +1,6 @@
 import 'reflect-metadata'
 
-import { InputFindBeerStyleAndPlaylist } from '1-domain/controllers/BeerRoutesController'
+import { InputFindBeerStyleAndPlaylist } from '1-domain/controllers/BeerStyleAndPlaylistRoutesController'
 import { BeersRepository } from '2-application/repositories/BeersRepository'
 import {
   FakePlaylistService,

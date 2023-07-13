@@ -15,8 +15,4 @@ export function UserStack({ stack }: StackContext) {
     'PUT /users/{id}': 'src/4-framework/functions/user/update.handler',
     'DELETE /users/{id}': 'src/4-framework/functions/user/delete.handler',
   })
-
-  stack.addOutputs({
-    ApiEndpoint: api.url,
-  })
 }
