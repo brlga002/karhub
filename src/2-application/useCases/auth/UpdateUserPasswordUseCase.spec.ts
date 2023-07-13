@@ -1,9 +1,9 @@
 import 'reflect-metadata'
 
-import { CurrentUser } from '1-domain/auth/CurrentUser'
 import { InputUpdateUserPassword } from '1-domain/controllers/AuthUserRoutesController'
 import { UsersRepository } from '2-application/repositories/UsersRepository'
 import { UsersRepositoryInMemory } from '@test/repositories/in-memory/UsersRepositoryInMemory'
+import { CURRENT_USER } from '@test/utility/currentUser'
 import { INPUT_CREATE_USER, makeUser } from '@test/utility/makeUser'
 
 import { UpdateUserPasswordUseCase } from './UpdateUserPasswordUseCase'
@@ -11,10 +11,6 @@ import { UpdateUserPasswordUseCase } from './UpdateUserPasswordUseCase'
 const INPUT_UPDATE_USER: InputUpdateUserPassword = {
   oldPassword: '123456',
   newPassword: '654321',
-}
-
-const currentUser: CurrentUser = {
-  userId: 'valid-user-id',
 }
 
 describe('UpdateUserPasswordUseCase', () => {
@@ -26,7 +22,7 @@ describe('UpdateUserPasswordUseCase', () => {
     const usersRepository: UsersRepository = new UsersRepositoryInMemory([user])
     const updateUserPasswordUseCase = new UpdateUserPasswordUseCase(
       usersRepository,
-      currentUser,
+      CURRENT_USER,
     )
 
     const resultUseCase = await updateUserPasswordUseCase.execute(
@@ -46,7 +42,7 @@ describe('UpdateUserPasswordUseCase', () => {
     const usersRepository: UsersRepository = new UsersRepositoryInMemory()
     const updateUserPasswordUseCase = new UpdateUserPasswordUseCase(
       usersRepository,
-      currentUser,
+      CURRENT_USER,
     )
 
     const resultUseCase = await updateUserPasswordUseCase.execute(
@@ -59,7 +55,7 @@ describe('UpdateUserPasswordUseCase', () => {
     if (resultUseCase.isLeft()) {
       expect(resultUseCase.value.errorCode).toBe(404)
       expect(resultUseCase.value.error).toBe(
-        `User with id '${currentUser.userId}' was not found.`,
+        `User with id '${CURRENT_USER.userId}' was not found.`,
       )
     }
   })
@@ -72,7 +68,7 @@ describe('UpdateUserPasswordUseCase', () => {
     const usersRepository: UsersRepository = new UsersRepositoryInMemory([user])
     const updateUserPasswordUseCase = new UpdateUserPasswordUseCase(
       usersRepository,
-      currentUser,
+      CURRENT_USER,
     )
 
     const resultUseCase = await updateUserPasswordUseCase.execute({
