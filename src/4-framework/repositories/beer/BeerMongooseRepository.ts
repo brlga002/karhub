@@ -11,4 +11,21 @@ export class BeerMongooseRepository
   constructor() {
     super(Beer, BeerMongooseModel)
   }
+
+  async findBeersByTemperatureRangeSortedByName(
+    temperature: number,
+  ): Promise<BeerDto[]> {
+    await this.connect()
+
+    const result = await this._model
+      .find({
+        minTemperature: { $lte: temperature },
+        maxTemperature: { $gte: temperature },
+      })
+      .sort({ name: 1 })
+
+    const data = result.map((record) => this.deserialize(record))
+
+    return data
+  }
 }
