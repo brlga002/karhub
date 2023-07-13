@@ -13,9 +13,7 @@ export async function main(event: APIGatewayProxyEventV2) {
     INTERFACE_TOKENS.BeerController,
   )
 
-  const input = ValidateBeerRequest.createEntity(
-    event.body as unknown as Record<string, unknown>,
-  )
+  const input = ValidateBeerRequest.createEntity(event.body)
   if (input.isLeft()) return HttpResponse.makeBadRequest(input.value)
 
   const response = await controller.createEntity(input.value)
