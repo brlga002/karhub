@@ -17,7 +17,7 @@ const updateUserPasswordSchema = z.object({
   oldPassword: userProps.password,
 })
 
-const authUserSchema = z.object({
+export const authUserSchema = z.object({
   email: userProps.email,
   password: userProps.password,
 })

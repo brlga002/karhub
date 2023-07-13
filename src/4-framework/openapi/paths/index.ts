@@ -1,2 +1,3 @@
-import './beer'
+import './auth'
 import './user'
+import './beer'

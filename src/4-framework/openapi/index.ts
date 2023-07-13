@@ -16,7 +16,7 @@ function run() {
       info: {
         version: '1.0.0',
         title: 'Karhub',
-        description: 'Karhub | Desafio Backend',
+        description: 'Karhub | Desafio Backend.',
       },
       servers: [
         {

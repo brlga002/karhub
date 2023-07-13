@@ -1,6 +1,7 @@
 import { z } from 'zod'
 
 import { BeerSchema, newBeerSchema } from '1-domain/entities/Beer/Beer.schema'
+import { findBeerStyleAndPlaylistSchema } from '3-interfaces/validators/ValidateBeerRequest'
 
 import { registry } from '../registry'
 import { createEntityPath } from '../utils/createEntityPath'
@@ -29,12 +30,12 @@ registry.registerPath({
   path: '/beers/beer-style',
   summary: `Get Beer style`,
   security: [],
-  tags: ['Beer', 'Get Beer'],
+  tags: ['Beer and Playlist'],
   request: {
     body: {
       content: {
         'application/json': {
-          schema: z.object({ temperature: z.number() }),
+          schema: findBeerStyleAndPlaylistSchema,
         },
       },
     },
@@ -44,7 +45,22 @@ registry.registerPath({
       description: `Get Beer style`,
       content: {
         'application/json': {
-          schema: z.object({}),
+          schema: z.object({
+            beerStyle: z.string().openapi({ example: 'IPA' }),
+            playlist: z.object({
+              name: z.string().openapi({ example: 'IPARTY' }),
+              tracks: z.array(
+                z.object({
+                  name: z.string().openapi({ example: 'Lua de Cristal' }),
+                  artist: z.string().openapi({ example: 'Xuxa' }),
+                  link: z.string().openapi({
+                    example:
+                      'https: //open.spotify.com/artist/21451j1KhjAiaYKflxBjr1',
+                  }),
+                }),
+              ),
+            }),
+          }),
         },
       },
     },
