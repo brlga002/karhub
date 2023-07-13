@@ -17,9 +17,9 @@ export const newBeerSchema = z.object({
 
 export const updateBeerSchema = z.object({
   id: entityProps.id,
-  name: beerProps.name,
-  minTemperature: beerProps.minTemperature,
-  maxTemperature: beerProps.maxTemperature,
+  name: z.optional(beerProps.name),
+  minTemperature: z.optional(beerProps.minTemperature),
+  maxTemperature: z.optional(beerProps.maxTemperature),
 })
 
 const { id, ...rest } = entityProps
