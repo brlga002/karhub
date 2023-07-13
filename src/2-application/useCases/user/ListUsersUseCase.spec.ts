@@ -7,7 +7,7 @@ import { makeUser } from '@test/utility/makeUser'
 
 import { ListUsersUseCase } from './ListUsersUseCase'
 
-const INPUT_GET_USER: InputListRepository = {
+const INPUT_LIST_USERS: InputListRepository = {
   offset: 1,
   limit: 2,
 }
@@ -21,8 +21,9 @@ describe('ListUsersUseCase', () => {
     ])
     const listUsersUseCase = new ListUsersUseCase(usersRepository)
 
-    const resultUseCase = await listUsersUseCase.execute(INPUT_GET_USER)
+    const resultUseCase = await listUsersUseCase.execute(INPUT_LIST_USERS)
 
+    expect.assertions(15)
     expect(resultUseCase.isRight()).toBeTruthy()
 
     if (resultUseCase.isRight()) {
@@ -30,8 +31,8 @@ describe('ListUsersUseCase', () => {
       expect(resultUseCase.value.content).toBeTruthy()
       const user = resultUseCase.value.content!
       expect(user).toHaveProperty('data')
-      expect(user).toHaveProperty('limit', INPUT_GET_USER.limit)
-      expect(user).toHaveProperty('offset', INPUT_GET_USER.offset)
+      expect(user).toHaveProperty('limit', INPUT_LIST_USERS.limit)
+      expect(user).toHaveProperty('offset', INPUT_LIST_USERS.offset)
       expect(user).toHaveProperty('total', 3)
 
       expect(user.data[0]).toHaveProperty('id')
@@ -41,6 +42,7 @@ describe('ListUsersUseCase', () => {
       expect(user.data[0]).toHaveProperty('updatedBy')
       expect(user.data[0]).not.toHaveProperty('password')
       expect(user.data[0].name).toBe('third name')
+      expect(user.data[0]).not.toHaveProperty('password')
     }
   })
 })

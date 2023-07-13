@@ -6,7 +6,7 @@ import { Entity } from '0-core/domain/entities/Entity'
 import { UserDto, UserEntity } from '1-domain/entities/User/User'
 import { UsersRepository } from '2-application/repositories/UsersRepository'
 
-class UsersRepositoryInMemory implements UsersRepository {
+export class UsersRepositoryInMemory implements UsersRepository {
   private users!: UserEntity[]
 
   constructor(users: UserEntity[] = []) {
@@ -102,5 +102,3 @@ class UsersRepositoryInMemory implements UsersRepository {
     return Promise.resolve(null)
   }
 }
-
-export { UsersRepositoryInMemory }
