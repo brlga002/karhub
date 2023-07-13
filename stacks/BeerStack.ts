@@ -6,6 +6,8 @@ export function BeerStack({ stack }: StackContext) {
   const { api } = use(ApiGatewayStack)
 
   api.addRoutes(stack, {
+    'POST /beers/beer-style':
+      'src/4-framework/functions/beer/findBeerStyleAndPlaylist.handler',
     'POST /beers': 'src/4-framework/functions/beer/create.handler',
     'GET /beers': 'src/4-framework/functions/beer/list.handler',
     'GET /beers/{id}': 'src/4-framework/functions/beer/get.handler',

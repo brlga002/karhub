@@ -18,11 +18,16 @@ import {
   OutputUpdateUseCase,
 } from '0-core/application/useCases/UpdateUseCase'
 import { left, right } from '0-core/domain/result/Either'
-import { BeerRoutesController } from '1-domain/controllers/BeerRoutesController'
+import {
+  BeerRoutesController,
+  InputFindBeerStyleAndPlaylist,
+  OutputFindBeerStyleAndPlaylist,
+} from '1-domain/controllers/BeerRoutesController'
 import { BeerDto, NewBeerDto, UpdateBeerDto } from '1-domain/entities/Beer/Beer'
 import { APPLICATION_TOKENS } from '2-application/tokens/applicationTokens'
 import { CreateBeerUseCase } from '2-application/useCases/beer/CreateBeerUseCase'
 import { DeleteBeerUseCase } from '2-application/useCases/beer/DeleteBeerUseCase'
+import { FindBeerStyleAndPlaylistUseCase } from '2-application/useCases/beer/FindBeerStyleAndPlaylistUseCase'
 import { GetBeerUseCase } from '2-application/useCases/beer/GetBeerUseCase'
 import { ListBeersUseCase } from '2-application/useCases/beer/ListBeersUseCase'
 import { UpdateBeerUseCase } from '2-application/useCases/beer/UpdateBeerUseCase'
@@ -34,6 +39,8 @@ export class BeerController implements BeerRoutesController {
     private readonly createBeerUseCase: CreateBeerUseCase,
     @inject(APPLICATION_TOKENS.DeleteBeerUseCase)
     private readonly deleteBeerUseCase: DeleteBeerUseCase,
+    @inject(APPLICATION_TOKENS.FindBeerStyleAndPlaylistUseCase)
+    private readonly findBeerStyleAndPlaylistUseCase: FindBeerStyleAndPlaylistUseCase,
     @inject(APPLICATION_TOKENS.GetBeerUseCase)
     private readonly getBeerUseCase: GetBeerUseCase,
     @inject(APPLICATION_TOKENS.ListBeersUseCase)
@@ -41,6 +48,14 @@ export class BeerController implements BeerRoutesController {
     @inject(APPLICATION_TOKENS.UpdateBeerUseCase)
     private readonly updateBeerUseCase: UpdateBeerUseCase,
   ) {}
+
+  async findBeerStyleAndPlaylist(
+    input: InputFindBeerStyleAndPlaylist,
+  ): OutputFindBeerStyleAndPlaylist {
+    const result = await this.findBeerStyleAndPlaylistUseCase.execute(input)
+    if (result.isLeft()) return left(result.value)
+    return right(result.value)
+  }
 
   async createEntity(input: NewBeerDto): OutputCreateUseCase<NewBeerDto> {
     const result = await this.createBeerUseCase.execute(input)

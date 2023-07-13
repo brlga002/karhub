@@ -12,6 +12,9 @@ const BEERS_TOKENS = {
   UpdateBeerUseCase: Symbol.for('UpdateBeerUseCase'),
   DeleteBeerUseCase: Symbol.for('DeleteBeerUseCase'),
   CreateBeerUseCase: Symbol.for('CreateBeerUseCase'),
+  FindBeerStyleAndPlaylistUseCase: Symbol.for(
+    'FindBeerStyleAndPlaylistUseCase',
+  ),
 }
 
 const USERS_TOKENS = {

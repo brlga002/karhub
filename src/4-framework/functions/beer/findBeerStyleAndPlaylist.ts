@@ -13,10 +13,10 @@ export async function main(event: APIGatewayProxyEventV2) {
     INTERFACE_TOKENS.BeerController,
   )
 
-  const input = ValidateBeerRequest.createEntity(event.body)
+  const input = ValidateBeerRequest.findBeerStyleAndPlaylist(event.body)
   if (input.isLeft()) return HttpResponse.makeBadRequest(input.value)
 
-  const response = await controller.createEntity(input.value)
+  const response = await controller.findBeerStyleAndPlaylist(input.value)
 
   return HttpResponse.makeResponse(response)
 }

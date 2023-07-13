@@ -14,6 +14,19 @@ export class BeersRepositoryInMemory implements BeersRepository {
     this.beers = beers
   }
 
+  findBeersByTemperatureRangeSortedByName(
+    temperature: number,
+  ): Promise<BeerDto[]> {
+    const filteredBeers = this.beers.filter((beer) => {
+      return (
+        beer.props.minTemperature <= temperature &&
+        beer.props.maxTemperature >= temperature
+      )
+    })
+
+    return Promise.resolve(filteredBeers.map((beer) => beer.toJSON(true)))
+  }
+
   create(entity: Beer): Promise<void> {
     this.beers.push(entity)
     return Promise.resolve()
