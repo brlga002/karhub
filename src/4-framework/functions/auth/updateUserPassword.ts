@@ -5,12 +5,12 @@ import { INTERFACE_TOKENS } from '3-interfaces/tokens/interfaceTokens'
 import { HttpResponse } from '4-framework/http/HttpResponse'
 import { container } from '4-framework/ioc/container'
 import { middleware } from '4-framework/middleware'
-import { AuthUserController } from 'src/3-interfaces/controllers/AuthUserController'
+import { UpdateUserPasswordController } from 'src/3-interfaces/controllers/UpdateUserPasswordController'
 import { ValidateUserRequest } from 'src/3-interfaces/validators/ValidateUserRequest'
 
 export async function main(event: APIGatewayProxyEventV2) {
-  const controller = container.get<AuthUserController>(
-    INTERFACE_TOKENS.AuthUserController,
+  const controller = container.get<UpdateUserPasswordController>(
+    INTERFACE_TOKENS.UpdateUserPasswordController,
   )
 
   const input = ValidateUserRequest.updateUserPassword(event.body)
