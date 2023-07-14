@@ -19,8 +19,8 @@ export default {
     })
 
     app
-      .stack(SwaggerStack)
       .stack(ApiGatewayStack)
+      .stack(SwaggerStack)
       .stack(BeerStack)
       .stack(UserStack)
   },

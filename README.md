@@ -74,7 +74,11 @@ Uma versão da API esta em produção: [Url servidor Produção](https://420haws
 
 A API oferece documentação com Swagger
 
-[Swagger em Produção](https://d3eci644ig2nzl.cloudfront.net)
+No console aparecera uma url o link do SwaggerUrl ex:
+
+```bash
+SwaggerUrl: https://d55gp2ajpl0ne.cloudfront.net
+```
 
 Alguns comandos ulteis:
 
@@ -94,6 +98,34 @@ npm run openapi:watch
 
 ```bash
 npm run openapi-server
+```
+
+## Testes
+
+Para rodar os testes unitário
+
+```bash
+npm run test
+```
+
+Para verificar erros de typescript
+
+```bash
+npm run typecheck
+```
+
+## Deploy
+
+O Deploy e feito na aws de forma automatizada toda vez que há alteração nas branchs do github atravez do [Seed](https://console.seed.run).
+
+- A branch master e publicada para produção.
+- A branch develop para ambiente de homologação.
+- O Deploy automatico exije que todos os testes passem.
+
+É possivel fazer o deploy diretamente para a aws com o comando:
+
+```bash
+npm run deploy
 ```
 
 ## Licença
