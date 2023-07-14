@@ -1,0 +1,22 @@
+name: Pull Request Workflow
+
+on:
+  pull_request:
+    branches: [master, develop]
+  workflow_dispatch:
+jobs:
+  linting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v2.1.5
+        with:
+          node-version: "16.x"
+      - name: Install dependencies
+        run: npm run install
+      - name: Run Tests
+        run: npm run jest
+      - name: Type Check
+        run: npm run typecheck

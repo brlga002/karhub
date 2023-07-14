@@ -1,6 +1,8 @@
 import { RouteConfig } from '@asteasolutions/zod-to-openapi/dist/openapi-registry'
 import { z } from 'zod'
 
+import { listEntitiesSchema } from '3-interfaces/validators/ValidateRequest'
+
 import { SECURITY } from './security'
 
 export function listEntitiesPath(props: {
@@ -15,7 +17,10 @@ export function listEntitiesPath(props: {
     security: props.security ?? SECURITY,
     tags: [props.nameModule],
     request: {
-      params: z.object({ id: z.string() }),
+      query: z.object({
+        offset: z.optional(z.coerce.number().nonnegative()),
+        limit: z.optional(z.coerce.number().nonnegative()),
+      }),
     },
 
     responses: {

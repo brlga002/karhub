@@ -1,14 +1,14 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "version": "1.0.0",
+    "version": "1.0.1",
     "title": "Karhub",
     "description": "Karhub | Desafio Backend."
   },
   "servers": [
     {
-      "description": "Local",
-      "url": "https://cj509u3iwl.execute-api.us-east-1.amazonaws.com"
+      "description": "local",
+      "url": "{{ API_URL }}"
     }
   ],
   "security": [
@@ -202,11 +202,23 @@
         "parameters": [
           {
             "schema": {
-              "type": "string"
+              "type": "number",
+              "nullable": true,
+              "minimum": 0
             },
-            "required": true,
-            "name": "id",
-            "in": "path"
+            "required": false,
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "number",
+              "nullable": true,
+              "minimum": 0
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
           }
         ],
         "responses": {
@@ -453,11 +465,23 @@
         "parameters": [
           {
             "schema": {
-              "type": "string"
+              "type": "number",
+              "nullable": true,
+              "minimum": 0
             },
-            "required": true,
-            "name": "id",
-            "in": "path"
+            "required": false,
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "number",
+              "nullable": true,
+              "minimum": 0
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
           }
         ],
         "responses": {
