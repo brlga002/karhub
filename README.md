@@ -9,17 +9,21 @@ A Cervejeira API é um microserviço para gerenciar estilos de cerveja e recomen
 - Atualizar informações de um estilo de cerveja existente
 - Excluir um estilo de cerveja
 - Encontrar o estilo de cerveja mais adequado para uma determinada temperatura e obter uma playlist relacionada a esse estilo
+- CRUD de usuários
+- Autenticação de usuários
 
 ## Tecnologias utilizadas
 
 - Node.js
 - TypeScript
+- Middy
+- Inversify
+- Jest
+- Zod
 - MongoDB
 - Spotify API
-- Zod
-- AWS
 - Seed
-- Jest
+- AWS
 
 ## Pré-requisitos
 
@@ -68,52 +72,68 @@ SPOTIFY_CLIENT_SECRET='cf64c8fce8f049f389040648ee8f2698'
 npm run dev
 ```
 
-O servidor estará em execução no ambiente aws mas é acessível localmente. Verifique o console para obter a URL local.
+Apos iniciar o sevidor e apresentado no console as urls da api e swagger:
 
-Uma versão da API está em produção: [Url servidor Produção](https://420hawsrej.execute-api.us-east-1.amazonaws.com)
+```bash
+ApiEndpoint: https://bcbxfoox4b.execute-api.us-east-1.amazonaws.com
+SwaggerUrl: https://d55gp2ajpl0ne.cloudfront.net
+```
 
 ## Uso
 
 A API oferece documentação com Swagger.
 
-No console, aparecerá uma URL do SwaggerUrl, por exemplo:
+Apos iniciar o sevidor e apresentado no console as urls da api e swagger:
 
 ```bash
+ApiEndpoint: https://bcbxfoox4b.execute-api.us-east-1.amazonaws.com
 SwaggerUrl: https://d55gp2ajpl0ne.cloudfront.net
 ```
 
-### Exemplo das rotas - existem rotas públicas e privadas:
+### Rotas existem rotas públicas e privadas na API:
 
-Rota para listar os estilos de cerveja:
+O cadeado indica se é uma rota privada. É necessário um token JWT (JSON Web Token) para acessar as rotas protegidas da API.
+
 ![Rota para listar os estilos de cerveja](assets/routes.png)
 
-Rota para acessar o tipo de cerveja e playlist (pública):
+Rota para acessar o tipo de cerveja e playlist:
+
 ![Rota para acessar o tipo de cerveja e playlist](assets/beer-style.png)
 
-Para acessar as rotas privadas, faça login para obter um token:
+Use o e-mail e senha defalt ou crie seu usuário para fazer login e obter um token:
+
 ![Rota para obter um token](assets/get-token.png)
 
 Informe o token para autorização no Swagger:
+
 ![Autorização no Swagger](assets/authorize.png)
 
-Alguns comandos úteis:
+## Deploy Automático na AWS
 
-1. Gerar uma nova documentação da sua API com base nos arquivos de schema:
+O deploy é feito automaticamente na AWS toda vez que há alteração nas branches do GitHub através do [Seed](https://console.seed.run).
+
+### Git Flow nas branches
+
+O Git Flow é um modelo de fluxo de trabalho baseado no Git que define uma estrutura clara para o controle de versão de um projeto. Ele usa branches específicas, como "master" e "develop", para gerenciar o ciclo de vida do software, facilitando o desenvolvimento colaborativo, a implantação controlada de versões e a organização das alterações realizadas no código-fonte. Com o Git Flow, equipes de desenvolvimento podem manter um histórico organizado, revisar e testar alterações antes da integração e garantir um fluxo consistente de desenvolvimento.
+
+### Ambiente de Produção
+
+A branch master é publicada para produção [swagger](https://d2ahd6am0gur0x.cloudfront.net) e [Api](https://bcbxfoox4b.execute-api.us-east-1.amazonaws.com)
+
+### Ambiente de Homologação
+
+A branch develop é usada para ambiente de homologação [Swagger](https://d3aogf016ol1wk.cloudfront.net) e [Api](https://p58im53gba.execute-api.us-east-1.amazonaws.com)
+
+### Teste no Deploy
+
+O deploy automático requer que todos os testes sejam aprovados.
+
+### Deploy manual direto do VSCODE
+
+Você também pode fazer o deploy diretamente para a AWS com o comando:
 
 ```bash
-npm run openapi
-```
-
-2. Gerar uma nova documentação com a opção watch para ouvir as alterações nos arquivos de schema:
-
-```bash
-npm run openapi:watch
-```
-
-3. Subir o Swagger em um servidor local na porta 9090:
-
-```bash
-npm run openapi-server
+npm run deploy
 ```
 
 ## Testes
@@ -132,19 +152,37 @@ npm run typecheck
 
 Há um script no GitHub que executa testes para as Pull Requests, garantindo que nenhuma alteração seja mesclada sem testes.
 
-## Deploy
+## Arquitetura do projeto
 
-O deploy é feito automaticamente na AWS toda vez que há alteração nas branches do GitHub através do [Seed](https://console.seed.run).
+### Clean Architecture
 
-- A branch master é publicada para produção.
-- A branch develop é usada para ambiente de homologação.
-- O deploy automático requer que todos os testes sejam aprovados.
+![Clean Architecture](https://blog.cleancoder.com/uncle-bob/images/2012-08-13-the-clean-architecture/CleanArchitecture.jpg)
 
-Você também pode fazer o deploy diretamente para a AWS com o comando:
+Clean Architecture é um estilo de arquitetura de software que enfatiza a separação de preocupações em camadas bem definidas, promovendo a modularidade, testabilidade e manutenibilidade do sistema. Com a ênfase na independência das regras de negócio das tecnologias e frameworks utilizados, essa abordagem permite a construção de sistemas flexíveis, escaláveis e de alta qualidade.
 
-```bash
-npm run deploy
-```
+### Organização das pastas
+
+A comunicação das camadas é feita com o princio da "injeção de dependência"
+
+- 0-core
+- 1-domain
+- 2-application
+- 3-interfaces
+- 4-framework
+
+### Inversify
+
+Inversify é um contêiner de injeção de dependência para JavaScript/TypeScript que permite a criação de um código mais modular e desacoplado. Com o Inversify, é possível definir e gerenciar as dependências entre os diferentes componentes de um sistema de forma fácil e flexível. Isso promove a reutilização de código, facilita a manutenção e testabilidade, além de melhorar a escalabilidade e a legibilidade do código. O Inversify oferece uma maneira elegante e poderosa de aplicar o princípio de inversão de dependência em projetos JavaScript/TypeScript [Leia sobre](https://inversify.io).
+
+### Lambda Authoriser
+
+Aproteção das rotas é feita por um Lambda authorizer que valida as requisições antes de chegar na aplicação [Leia sobre](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html).
+
+Caso a requisição seja autorizada as informações do usuário presente no token são adcionados na requisição.
+
+### Middy
+
+"Middy" é um framework de middleware para Node.js que facilita a construção de aplicativos serverless com AWS Lambda. Ele fornece um conjunto de middlewares pré-construídos que podem ser facilmente adicionados às funções do Lambda, permitindo a execução de tarefas comuns, como validação de entrada, tratamento de erros, logging, autenticação e muito mais. O "Middy" é altamente flexível e extensível, permitindo que você adicione seus próprios middlewares personalizados ou aproveite os existentes da comunidade. Com o "Middy", você pode simplificar o desenvolvimento de funções Lambda, tornando-as mais legíveis, reutilizáveis e fáceis de dar manutenção [Leia sobre](https://middy.js.org/).
 
 ## Licença
 
