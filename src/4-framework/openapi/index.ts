@@ -21,15 +21,7 @@ function run() {
       servers: [
         {
           description: 'local',
-          url: '#LOCAL',
-        },
-        {
-          description: 'develop',
-          url: 'https://p58im53gba.execute-api.us-east-1.amazonaws.com',
-        },
-        {
-          description: 'master',
-          url: 'https://420hawsrej.execute-api.us-east-1.amazonaws.com',
+          url: '{{ API_URL }}',
         },
       ],
       security: SECURITY,
