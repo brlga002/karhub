@@ -14,10 +14,12 @@ A Cervejeira API é um microserviço para gerenciar estilos de cerveja e recomen
 
 - Node.js
 - TypeScript
-- Express.js
 - MongoDB
 - Spotify API
 - Zod
+- AWS
+- Seed
+- Jest
 
 ## Pré-requisitos
 
@@ -25,9 +27,9 @@ Certifique-se de ter as seguintes ferramentas instaladas em seu sistema:
 
 - Node.js (versão nodejs16.x)
 - Usuario capaz de fazer deploy na aws segue links de ajuda:
-  [Create an AWS account](https://sst.dev/chapters/create-an-aws-account.html)
-  [Create an IAM user](https://sst.dev/chapters/create-an-iam-user.html)
-  [Configure the AWS CLI](https://sst.dev/chapters/configure-the-aws-cli.html)
+  - [Create an AWS account](https://sst.dev/chapters/create-an-aws-account.html)
+  - [Create an IAM user](https://sst.dev/chapters/create-an-iam-user.html)
+  - [Configure the AWS CLI](https://sst.dev/chapters/configure-the-aws-cli.html)
 
 ## Instalação
 
@@ -66,35 +68,49 @@ SPOTIFY_CLIENT_SECRET='cf64c8fce8f049f389040648ee8f2698'
 npm run dev
 ```
 
-O servidor estará em execução no ambiente aws mas é acessivel em localmente, verifique o console para obter a url local.
+O servidor estará em execução no ambiente aws mas é acessível localmente. Verifique o console para obter a URL local.
 
-Uma versão da API esta em produção: [Url servidor Produção](https://420hawsrej.execute-api.us-east-1.amazonaws.com)
+Uma versão da API está em produção: [Url servidor Produção](https://420hawsrej.execute-api.us-east-1.amazonaws.com)
 
 ## Uso
 
-A API oferece documentação com Swagger
+A API oferece documentação com Swagger.
 
-No console aparecera uma url o link do SwaggerUrl ex:
+No console, aparecerá uma URL do SwaggerUrl, por exemplo:
 
 ```bash
 SwaggerUrl: https://d55gp2ajpl0ne.cloudfront.net
 ```
 
-Alguns comandos ulteis:
+### Exemplo das rotas - existem rotas públicas e privadas:
 
-1. gere uma nova documentação da sua api com base nos arquivos de schema:
+Rota para listar os estilos de cerveja:
+![Rota para listar os estilos de cerveja](assets/routes.png)
+
+Rota para acessar o tipo de cerveja e playlist (pública):
+![Rota para acessar o tipo de cerveja e playlist](assets/beer-style.png)
+
+Para acessar as rotas privadas, faça login para obter um token:
+![Rota para obter um token](assets/get-token.png)
+
+Informe o token para autorização no Swagger:
+![Autorização no Swagger](assets/authorize.png)
+
+Alguns comandos úteis:
+
+1. Gerar uma nova documentação da sua API com base nos arquivos de schema:
 
 ```bash
 npm run openapi
 ```
 
-2. gere uma nova documentação com a opção watch para ficar ouvido as alterações no arquivos de schema:
+2. Gerar uma nova documentação com a opção watch para ouvir as alterações nos arquivos de schema:
 
 ```bash
 npm run openapi:watch
 ```
 
-3. Suba o swagger em servidor local na porta 9090
+3. Subir o Swagger em um servidor local na porta 9090:
 
 ```bash
 npm run openapi-server
@@ -102,27 +118,29 @@ npm run openapi-server
 
 ## Testes
 
-Para rodar os testes unitário
+Para executar os testes unitários:
 
 ```bash
 npm run test
 ```
 
-Para verificar erros de typescript
+Para verificar erros de TypeScript:
 
 ```bash
 npm run typecheck
 ```
 
+Há um script no GitHub que executa testes para as Pull Requests, garantindo que nenhuma alteração seja mesclada sem testes.
+
 ## Deploy
 
-O Deploy e feito na aws de forma automatizada toda vez que há alteração nas branchs do github atravez do [Seed](https://console.seed.run).
+O deploy é feito automaticamente na AWS toda vez que há alteração nas branches do GitHub através do [Seed](https://console.seed.run).
 
-- A branch master e publicada para produção.
-- A branch develop para ambiente de homologação.
-- O Deploy automatico exije que todos os testes passem.
+- A branch master é publicada para produção.
+- A branch develop é usada para ambiente de homologação.
+- O deploy automático requer que todos os testes sejam aprovados.
 
-É possivel fazer o deploy diretamente para a aws com o comando:
+Você também pode fazer o deploy diretamente para a AWS com o comando:
 
 ```bash
 npm run deploy
