@@ -20,8 +20,16 @@ function run() {
       },
       servers: [
         {
-          description: 'Local',
-          url: 'https://cj509u3iwl.execute-api.us-east-1.amazonaws.com',
+          description: 'local',
+          url: '#LOCAL',
+        },
+        {
+          description: 'develop',
+          url: 'https://p58im53gba.execute-api.us-east-1.amazonaws.com',
+        },
+        {
+          description: 'master',
+          url: 'https://420hawsrej.execute-api.us-east-1.amazonaws.com',
         },
       ],
       security: SECURITY,
