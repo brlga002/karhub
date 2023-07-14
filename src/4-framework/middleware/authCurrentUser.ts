@@ -19,15 +19,18 @@ interface Authorizer extends APIGatewayEventRequestContextV2 {
 
 type Event = APIGatewayProxyEventV2WithRequestContext<Authorizer>
 
-const PUBLIC_ROUTES = ['authenticate']
+const PUBLIC_ROUTES = [
+  'POST /authenticate/login',
+  'POST /users',
+  'POST /beers/beer-style',
+]
 
 const ensureCurrentUser = (
   request: middy.Request<Event>,
 ): InputSign | null | never => {
   const authorizer = request.event.requestContext?.authorizer?.lambda ?? null
-  const rawPath = request.event.rawPath
-  const [, route] = rawPath.split('/')
 
+  const route = request.event.routeKey
   if (!authorizer && !PUBLIC_ROUTES.includes(route))
     throw ApplicationError.unauthorized()
 
@@ -39,11 +42,7 @@ export const authCurrentUser = (): middy.MiddlewareObj<Event> => {
     before: async (request: middy.Request<Event>): Promise<void> => {
       const authorizer = ensureCurrentUser(request)
       if (authorizer) {
-        const user = new ConcreteCurrentUser(
-          authorizer.userId,
-          authorizer.tenantId,
-          authorizer.role,
-        )
+        const user = new ConcreteCurrentUser(authorizer.userId)
         container
           .bind<CurrentUser>(INTERFACE_TOKENS.CurrentUser)
           .toConstantValue(user)

@@ -1,11 +1,8 @@
-import { Role } from '0-core/domain/entities/Role'
 import { Either } from '0-core/domain/result/Either'
 
 export type InputSign = {
-  tenantId: string
   userId: string
   name: string
-  role: Role
 }
 
 export type OutputSing = {
